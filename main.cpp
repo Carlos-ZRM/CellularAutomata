@@ -13,78 +13,24 @@ int l;
 int times;
 int * x, *xi;
 
-int count (int * x)
-{
-    int r = 0;
-    for (int i = 0; i < l ; i++)
-    {
-        if (x[i]==1)
-            r++;
-    }
-    return r;
-}
 
 int fi(int x , int y, int z)
 {
     int r = rule>>(4*x +2*y + z);
-    
+
     return r&1;
-    
+
 }
 
-int *  evolutionH (int * x, int * xi)
-{
-    int * h = (int *)std::malloc( times * sizeof(int));
-    int * aux;
-    int c = 0;
-    cout << "\n";
-    /*for (int j = 0; j < l; j++){
-        cout << x[j];
-    }*/
-    c = count (x);
-    
-    cout <<  "data"<<rule<<" = { ";
-    cout << c;
-    for (int i = 0; i < times; i++)
-    {
-        h [i] = c;
-        cout << " ,"<< c;
-        
-       // cout << "\n";
-        for (int j = 0; j < l; j++)
-        {
-            if (j == 0)
-                xi[j] = fi( x[j-1] , x[j], x[0] );
-            else if (j== (l-1))
-                xi[j] = fi( x[l-1] , x[j], x[j+1] );
-            else
-                xi[j] = fi( x[j-1] , x[j], x[j+1] );
-            if( x[j] != xi[j] )
-            {
-                if(x[j]==0)
-                    c++;
-                else
-                    c--;
-            }
-           // cout << xi[j];
-        }
-        
-        aux = x;
-        x = xi;
-        xi = aux;
-    }
-    cout << " }";
-    return h;
-}
 string word(int ** matriz, int x, int y,  int block)
 {
     string r = "";
-    
+
     for (int i = x; i < (x + block) ; i++)
     {
         for (int j = y; j < (y + block) ; j++)
         {
-            
+
             r.push_back((matriz[i][j]+48));
         }
     }
@@ -92,7 +38,7 @@ string word(int ** matriz, int x, int y,  int block)
 }
 /**
     Funcion de evolucion para encontrar la diversidad morfologia de matrices block X block
- 
+
  */
 void evolution (int ** matriz, int block)
 {
@@ -101,7 +47,7 @@ void evolution (int ** matriz, int block)
     for (int i = 0; i < l; i++)
     {
         cout << matriz[0][i];
-        
+
     }
     for (int i = 1; i < block; i++)
     {
@@ -110,28 +56,28 @@ void evolution (int ** matriz, int block)
         cout << "\n";
         for (int j = 0; j < l; j++)
         {
-            if (j == 0)
+            if (j == (l-1))
                 xi[j] = fi( x[j-1] , x[j], x[0] );
-            else if (j== (l-1))
+            else if (j== 0)
                 xi[j] = fi( x[l-1] , x[j], x[j+1] );
             else
                 xi[j] = fi( x[j-1] , x[j], x[j+1] );
             cout << xi[j];
         }
-        
+
         matriz[i]= xi;
        // x = xi;
        // xi = aux;
     }
      vector<string> lista;
     string s;
-    
+
     for (int i = 0; i < (times-block); i++)
     {
-        
+
         for (int j = 0; j < (l-block); j++)
         {
-            
+
             //  cout << "\n" << word(matriz , 0, i, block);
             // checkVector(lista,word(matriz , 0, i, block) );
             // bloque que crea las palabras de cada posicion
@@ -141,41 +87,41 @@ void evolution (int ** matriz, int block)
                 lista.insert( lista.begin()+lista.size(), s );
             }
         }
-        
+
         reglaGlobal(matriz[block-1],matriz[0]);
         recorrer(matriz,block);
-      
+
     }
-    
-    printVector(lista);
-    
-    cout << "\n\n " << lista.size();
-    
+
+    //printVector(lista);
+
+    //cout << "\n\n " << lista.size();
+
 }
 void reglaGlobal(int * x, int * xi)
 {
     cout << "\n";
     for (int j = 0; j < l; j++)
     {
-        if (j == 0)
+        if (j == (l-1) )
             xi[j] = fi( x[j-1] , x[j], x[0] );
-        else if (j== (l-1))
+        else if (j== 0)
             xi[j] = fi( x[l-1] , x[j], x[j+1] );
         else
             xi[j] = fi( x[j-1] , x[j], x[j+1] );
         cout << xi[j];
     }
-    
+
 }
 
 void printVector(std::vector<string> lista)
 {
-    
+
     ofstream fs ("File.txt");
     if (fs.fail())
         cout << "\n Error \n\n";
-    
-    
+
+
     cout << "\nlista\n\n";
     fs << endl;
     for (int i = 0; i < lista.size(); i++)
@@ -190,7 +136,7 @@ void printVector(std::vector<string> lista)
         }
         fs << endl;
         cout << "\n";
-       
+
     }
     fs.close();
 }
@@ -200,7 +146,7 @@ void checkVector( std::vector<string> lista, string s )
     {
       lista.insert( lista.begin()+lista.size(), s );
     }
-    
+
 }
 void evolution (int * x, int * xi)
 {
@@ -215,9 +161,9 @@ void evolution (int * x, int * xi)
         cout << "\n";
         for (int j = 0; j < l; j++)
         {
-            if (j == 0)
+            if (j == (l-1))
                 xi[j] = fi( x[j-1] , x[j], x[0] );
-            else if (j== (l-1))
+            else if (j== 0 )
                 xi[j] = fi( x[l-1] , x[j], x[j+1] );
             else
                 xi[j] = fi( x[j-1] , x[j], x[j+1] );
@@ -228,22 +174,8 @@ void evolution (int * x, int * xi)
         xi = aux;
     }
 }
-/*void Histograma()
-{
-    
-    
-}
-void Morphological()
-{
-    
-    
-}
-void Elementary()
-{
-    
-}
- */
-void ECA(int ruless, int ls, int timess, int block )
+
+void ECA(int ruless, int ls, int timess , string seedd, int block )
 {
     rule = ruless;
     l = ls;
@@ -270,16 +202,15 @@ void ECA(int ruless, int ls, int timess, int block )
             }
         }
     }
-    
-    char * s= "1";
-    seed(matriz[0], s, 1);
+
+    seed(matriz[0], seedd, seedd.size());
     evolution(matriz, block);
-    
- 
-    
+
+
+
 }
 
-void ECA(int rules, int ls, int timess )
+void ECA(int rules, int ls, int timess, string seedd )
 {
     rule = rules;
     l = ls;
@@ -287,7 +218,7 @@ void ECA(int rules, int ls, int timess )
     x = (int *)std::malloc( l * sizeof(int));
     xi = (int *)std::malloc( l * sizeof(int));
 
-    
+
     if( x == NULL || xi == NULL)
     {
         printf( "No hay memoria disponible…\n" );
@@ -300,23 +231,23 @@ void ECA(int rules, int ls, int timess )
             x[i] = 0 ;
         }        //x[l/2] = 1;
     }
-    
-    char *  s = "11111";
-    
-    seed(x, s , 5);
+
+
+
+    seed(x, seedd , seedd.size());
 
      evolution(x, xi);
   // int * h = evolutionH( x, xi );
-    
+
 }
-void seed(int * x, char * s, int t)
+void seed(int * x, string s, int t)
 {
-    
-    
+
+
     for (int i = (l-t)/2 , j = 0; i< (l+t)/2;j++, i++) {
         if(s[i-(l-t)/2]=='1')
             x[i] = 1;
-        
+
     }
 }
 
@@ -334,12 +265,65 @@ void recorrer(int ** matriz, int block)
 }
 int main(int argc, const char * argv[])
 {
-    // insert code here...
-    int x = 128;
-    //ECA (126 ,x ,x );
-    
-    ECA (60 ,x ,(x/2)-1, 3 );
+
+    if(argc<5||argc>6)
+    {
+      cout << "el uso del programa es ./exe.exe rule anillo num evolucion semilla \n";
+      cout << "                       ./exe.exe 90 128 64 1\n";
+      return 1;
+    }
+    else
+    {
+      try
+        {
+          if (stoi(argv[1])<0 || stoi(argv[1])>255)
+          {
+            cout << "La regla es invalida, el intervalo debe ser  (0,256)";
+            return 1;
+          }
+
+          if (stoi(argv[1])<0 || stoi(argv[1])>255)
+          {
+            cout << "La regla es invalida, el intervalo debe ser  (0,256)";
+            return 1;
+          }
+          if (stoi(argv[2])<0)
+          {
+            cout << "La longitud del anillo debe ser positiva";
+            return 1;
+          }
+          if (stoi(argv[3])<0)
+          {
+            cout << "El numero de evoluciones debe ser positivo";
+          return 1;
+          }
+
+          if (argc==5)
+            ECA (stoi(argv[1]) ,stoi(argv[2]), stoi(argv[3]), argv[4]);
+          else if (argc==6)
+            ECA (stoi(argv[1]) ,stoi(argv[2]), stoi(argv[3]), argv[4],3);
+
+        }
+      catch(const std::invalid_argument& e)
+        {
+          cout << "Las cadenas ingresados no corresponden a enteros";
+          return 1;
+        }
+      catch(const std::out_of_range& e)
+        {
+          cout << "Numeros fuera de rango ";
+          return 1;
+        }
+      catch(...)
+       {
+         cout << "Error desconocido";
+         return 1;
+       }
+
+
+    }
+
     cout << "\n\n";
-    
+
     return 0;
 }

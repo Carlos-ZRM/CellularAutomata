@@ -14,11 +14,12 @@
 #include <cstdlib>
 #include <vector>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
-void ECA(int rule, int l, int times );
-void ECA(int rules, int l, int times, int block);
+void ECA(int rule, int l, int times , string s);
+void ECA(int rules, int l, int times,  string s,int block);
 /**
  evolucion de un automata celular dados todos los parametros de entrada
  */
@@ -43,14 +44,14 @@ int fi (int x, int y, int z );
 /**
  agrega una configuracion inicial o semilla a una configuracion local
  */
-void seed(int * x, char * s, int t);
+void seed(int * x, string s, int t);
 
 /**
  metodo auxiliar para encontrar patrones.
  */
 void recorrer(int ** matriz, int block);
 /**
- genera las configuraciones posibles 
+ genera las configuraciones posibles
  */
 string word(int ** matriz, int x, int y , int block);
 void reglaGlobal(int * x, int * y);
